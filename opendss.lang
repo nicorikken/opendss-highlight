@@ -1,0 +1,981 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+ Author: Nico Rikken <nico@nicorikken.eu>
+ Copyright (C) 2015 Nico Rikken <nico@nicorikken.eu>
+
+ This specification uses two regular expressions for recognising decimal and
+ floating point recognition. Both are derived from the fortran language spec
+ as included with GtkSourceView:
+ Author: John Spray <jcspray@icculus.org>
+ Copyright (C) 2004, 2005, 2006 John Spray <jcs116@york.ac.uk>
+ Copyright (C) 2005 Jerry DeLisle <jvdelisle@verizon.net>
+
+ This library is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Library General Public
+ License as published by the Free Software Foundation; either
+ version 2 of the License, or (at your option) any later version.
+
+ This library is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Library General Public License for more details.
+
+ You should have received a copy of the GNU Library General Public
+ License along with this library; if not, write to the
+ Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+ Boston, MA 02111-1307, USA.
+ 
+ KNOWN ISSUES
+ * No spell-check exceptions have been defined.
+ * Filenames lack a highlight extending to the full length of the filename.
+ * Default vsource.source is not properly highlighted.
+ * Context-based distinction between types (command, option, etc.) is lacking.
+ * Development tags like TODO or FIXME lack highlighting.
+
+-->
+<language id="opendss" _name="OpenDSS" version="2.0" _section="Scientific">
+  <metadata>
+    <property name="mimetypes">text/opendss</property>
+    <property name="globs">*.dss;*.Dss;*.DSS</property>
+    <property name="line-comment-start">!</property>
+    <property name="block-comment-start">/*</property>
+    <property name="block-comment-end">*/</property>
+  </metadata>
+
+  <styles>
+    <style id="comment"        _name="Comment"        map-to="def:comment"/>
+    <style id="command"        _name="Command"        map-to="def:type"/>
+    <style id="option"         _name="Option"         map-to="def:identifier"/>
+    <style id="parameter"      _name="Parameter"      map-to="def:identifier"/>
+    <style id="property"       _name="Property"       map-to="def:constant"/>
+    <style id="class"          _name="Class"          map-to="def:identifier"/>
+    <style id="continuation"   _name="Continuation"   map-to="def:comment"/>
+    <style id="math"           _name="Math"           map-to="def:type"/>
+
+    <style id="filename"       _name="Filename"       map-to="def:constant"/>
+
+    <style id="decimal"        _name="Decimal"        map-to="def:constant"/>
+    <style id="floating-point" _name="Floating Point" map-to="def:constant"/>
+  </styles>
+
+  <default-regex-options case-sensitive="false"/>
+
+  <definitions>
+    <context id="opendss">
+      <include>
+
+      <!--comment-->
+        <context id="comment" style-ref="comment">
+          <start>\!</start>
+          <end>$</end>
+        </context>
+
+        <context id="comment-line" style-ref="comment">
+          <start>^\/\/</start>
+          <end>$</end>
+        </context>
+
+        <context id="comment-multiline" style-ref="comment">
+          <start>^\/\*</start>
+          <end>\*\/</end>
+        </context>
+
+      <!--continuation-->
+        <context id="continuation" style-ref="continuation">
+          <keyword>^m</keyword>
+          <keyword>^more</keyword>
+        </context>
+
+        <context id="continuation-tilde" style-ref="continuation">
+          <match>^~\B</match>
+        </context>
+
+      <!--command-->
+        <context id="commands" style-ref="command">
+          <keyword>about</keyword>
+          <keyword>addbusmarker</keyword>
+          <keyword>alignfile</keyword>
+          <keyword>allocateloads</keyword>
+          <keyword>batchedit</keyword>
+          <keyword>buildy</keyword>
+          <keyword>buscoords</keyword>
+          <keyword>calcvoltagebases</keyword>
+          <keyword>capacity</keyword>
+          <keyword>cd</keyword>
+          <keyword>cktlosses</keyword>
+          <keyword>clear</keyword>
+          <keyword>clearbusmarkers</keyword>
+          <keyword>close</keyword>
+          <keyword>closedi</keyword>
+          <keyword>comparecases</keyword>
+          <keyword>compile</keyword>
+          <keyword>currents</keyword>
+          <keyword>di_plot</keyword>
+          <keyword>disable</keyword>
+          <keyword>distribute</keyword>
+          <keyword>doscmd</keyword>
+          <keyword>dump</keyword>
+          <keyword>edit</keyword>
+          <keyword>enable</keyword>
+          <keyword>estimate</keyword>
+          <keyword>export</keyword>
+          <keyword>fileedit</keyword>
+          <keyword>formedit</keyword>
+          <keyword>get</keyword>
+          <keyword>guids</keyword>
+          <keyword>help</keyword>
+          <keyword>init</keyword>
+          <keyword>interpolate</keyword>
+          <keyword>latlongcoord</keyword>
+          <keyword>losses</keyword>
+          <keyword>makebuslist</keyword>
+          <keyword>makeposseq</keyword>
+          <keyword>new</keyword>
+          <keyword>nodediff</keyword>
+          <keyword>obfuscate</keyword>
+          <keyword>open</keyword>
+          <keyword>phaselosses</keyword>
+          <keyword>plot</keyword>
+          <keyword>powers</keyword>
+          <keyword>pstcalc</keyword>
+          <keyword>reconductor</keyword>
+          <keyword>redirect</keyword>
+          <keyword>reduce</keyword>
+          <keyword>rephase</keyword>
+          <keyword>reprocessbuses</keyword>
+          <keyword>reset</keyword>
+          <keyword>rotate</keyword>
+          <keyword>sample</keyword>
+          <keyword>save</keyword>
+          <keyword>select</keyword>
+          <keyword>seqcurrents</keyword>
+          <keyword>seqpowers</keyword>
+          <keyword>seqvoltages</keyword>
+          <keyword>set</keyword>
+          <keyword>setkvbase</keyword>
+          <keyword>show</keyword>
+          <keyword>solve</keyword>
+          <keyword>summary</keyword>
+          <keyword>totals</keyword>
+          <keyword>updatestorage</keyword>
+          <keyword>variable</keyword>
+          <keyword>varnames</keyword>
+          <keyword>varvalues</keyword>
+          <keyword>vdiff</keyword>
+          <keyword>visualize</keyword>
+          <keyword>voltages</keyword>
+          <keyword>yearlycurves</keyword>
+          <keyword>ysc</keyword>
+          <keyword>zsc</keyword>
+          <keyword>zsc10</keyword>
+          <keyword>zscrefresh</keyword>
+          <keyword>_docontrolactions</keyword>
+          <keyword>_initsnap</keyword>
+          <keyword>_samplecontrols</keyword>
+          <keyword>_showcontrolqueue</keyword>
+          <keyword>_solvedirect</keyword>
+          <keyword>_solvenocontrol</keyword>
+          <keyword>_solvepflow</keyword>
+        </context>
+
+        <context id="commands-questionmark" style-ref="command">
+          <match>\B\?\B</match>
+        </context>
+
+      <!--class-->
+        <context id="classes" style-ref="class">
+          <keyword>capcontrol</keyword>
+          <keyword>capacitor</keyword>
+          <keyword>energymeter</keyword>
+          <keyword>fault</keyword>
+          <keyword>feeder</keyword>
+          <keyword>fuse</keyword>
+          <keyword>generator</keyword>
+          <keyword>gendispatcher</keyword>
+          <keyword>gicline</keyword>
+          <keyword>gictransformer</keyword>
+          <keyword>growthshape</keyword>
+          <keyword>isource</keyword>
+          <keyword>line</keyword>
+          <keyword>linecode</keyword>
+          <keyword>linegeometry</keyword>
+          <keyword>linespacing</keyword>
+          <keyword>load</keyword>
+          <keyword>loadshape</keyword>
+          <keyword>monitor</keyword>
+          <keyword>reactor</keyword>
+          <keyword>recloser</keyword>
+          <keyword>regcontrol</keyword>
+          <keyword>relay</keyword>
+          <keyword>sensor</keyword>
+          <keyword>solution</keyword>
+          <keyword>storage</keyword>
+          <keyword>storagecontroller</keyword>
+          <keyword>tcc_curve</keyword>
+          <keyword>transformer</keyword>
+          <keyword>vsource</keyword>
+          <keyword>wiredata</keyword>
+        </context>
+
+      <!--option-->
+        <context id="options" style-ref="option">
+          <keyword>all</keyword>
+          <keyword>autoadded</keyword>
+          <keyword>buses</keyword>
+          <keyword>busflow</keyword>
+          <keyword>circuit</keyword>
+          <keyword>cm</keyword>
+          <keyword>currents</keyword>
+          <keyword>debug</keyword>
+          <keyword>elements</keyword>
+          <keyword>eventlog</keyword>
+          <keyword>faults</keyword>
+          <keyword>faultstudy</keyword>
+          <keyword>ft</keyword>
+          <keyword>generators</keyword>
+          <keyword>in</keyword>
+          <keyword>isolated</keyword>
+          <keyword>kft</keyword>
+          <keyword>km</keyword>
+          <keyword>kva</keyword>
+          <keyword>lineconstants</keyword>
+          <keyword>loops</keyword>
+          <keyword>losses</keyword>
+          <keyword>m</keyword>
+          <keyword>meters</keyword>
+          <keyword>mi</keyword>
+          <keyword>monitor</keyword>
+          <keyword>monitors</keyword>
+          <keyword>mva</keyword>
+          <keyword>none</keyword>
+          <keyword>overloads</keyword>
+          <keyword>panel</keyword>
+          <keyword>powers</keyword>
+          <keyword>ratings</keyword>
+          <keyword>seq</keyword>
+          <keyword>seqz</keyword>
+          <keyword>setkvbse</keyword>
+          <keyword>taps</keyword>
+          <keyword>unserved</keyword>
+          <keyword>variables</keyword>
+          <keyword>y</keyword>
+          <keyword>yprim</keyword>
+          <keyword>yprims</keyword>
+          <keyword>zone</keyword>
+        </context>
+
+      <!--parameter-->
+        <context id="parameters" style-ref="parameter">
+          <keyword>action</keyword>
+          <keyword>addtype</keyword>
+          <keyword>algorithm</keyword>
+          <keyword>allocationfactor</keyword>
+          <keyword>allocationfactors</keyword>
+          <keyword>allowduplicates</keyword>
+          <keyword>angle</keyword>
+          <keyword>amps</keyword>
+          <keyword>autobuslist</keyword>
+
+          <keyword>band</keyword>
+          <keyword>bank</keyword>
+          <keyword>basefreq</keyword>
+          <keyword>basefrequency</keyword>
+          <keyword>basekv</keyword>
+          <keyword>bases</keyword>
+          <keyword>breakertime</keyword>
+          <keyword>bus</keyword>
+          <keyword>buses</keyword>
+          <keyword>bush</keyword>
+          <keyword>buslist</keyword>
+          <keyword>busnh</keyword>
+          <keyword>busnx</keyword>
+          <keyword>busx</keyword>
+          <keyword>bus1</keyword>
+          <keyword>bus2</keyword>
+          <keyword>b0</keyword>
+          <keyword>b1</keyword>
+
+          <keyword>c</keyword>
+          <keyword>capacitor</keyword>
+          <keyword>capkvar</keyword>
+          <keyword>capmarkercode</keyword>
+          <keyword>capmarkersize</keyword>
+          <keyword>case</keyword>
+          <keyword>casename</keyword>
+          <keyword>cases</keyword>
+          <keyword>case1</keyword>
+          <keyword>case2</keyword>
+          <keyword>cfactor</keyword>
+          <keyword>cfactors</keyword>
+          <keyword>channels</keyword>
+          <keyword>chargetrigger</keyword>
+          <keyword>circuit</keyword>
+          <keyword>cktmodel</keyword>
+          <keyword>class</keyword>
+          <keyword>cmatrix</keyword>
+          <keyword>code</keyword>
+          <keyword>color</keyword>
+          <keyword>column</keyword>
+          <keyword>conn</keyword>
+          <keyword>conns</keyword>
+          <keyword>cond</keyword>
+          <keyword>controlmode</keyword>
+          <keyword>csvfile</keyword>
+          <keyword>ctphase</keyword>
+          <keyword>ctprim</keyword>
+          <keyword>ctratio</keyword>
+          <keyword>cuf</keyword>
+          <keyword>cvrcurve</keyword>
+          <keyword>cvrvars</keyword>
+          <keyword>cvrwatts</keyword>
+          <keyword>c0</keyword>
+          <keyword>c1</keyword>
+          <keyword>c2</keyword>
+          <keyword>c3</keyword>
+          <keyword>c_array</keyword>
+
+          <keyword>d</keyword>
+          <keyword>datapath</keyword>
+          <keyword>daily</keyword>
+          <keyword>daisysize</keyword>
+          <keyword>dblfile</keyword>
+          <keyword>deadtime</keyword>
+          <keyword>debugtrace</keyword>
+          <keyword>defaultbasefrequency</keyword>
+          <keyword>defaultdaily</keyword>
+          <keyword>defaultyearly</keyword>
+          <keyword>delay</keyword>
+          <keyword>delayoff</keyword>
+          <keyword>deltadirection</keyword>
+          <keyword>demandinterval</keyword>
+          <keyword>diam</keyword>
+          <keyword>dir</keyword>
+          <keyword>dischargetrigger</keyword>
+          <keyword>dispmode</keyword>
+          <keyword>dispvalue</keyword>
+          <keyword>diverbose</keyword>
+          <keyword>dots</keyword>
+          <keyword>dsvfile</keyword>
+          <keyword>dt</keyword>
+          <keyword>duty</keyword>
+          <keyword>dynadata</keyword>
+          <keyword>dynadll</keyword>
+
+          <keyword>earthmodel</keyword>
+          <keyword>editor</keyword>
+          <keyword>editstring</keyword>
+          <keyword>ee</keyword>
+          <keyword>element</keyword>
+          <keyword>elementlist</keyword>
+          <keyword>emergamps</keyword>
+          <keyword>emerghkva</keyword>
+          <keyword>emergvmaxpu</keyword>
+          <keyword>emergvminpu</keyword>
+          <keyword>en</keyword>
+          <keyword>enabled</keyword>
+          <keyword>eventlog</keyword>
+
+          <keyword>faultrate</keyword>
+          <keyword>file</keyword>
+          <keyword>flrise</keyword>
+          <keyword>forceon</keyword>
+          <keyword>freq</keyword>
+          <keyword>frequency</keyword>
+          <keyword>fusecurve</keyword>
+
+          <keyword>genkw</keyword>
+          <keyword>genlist</keyword>
+          <keyword>genmult</keyword>
+          <keyword>genpf</keyword>
+          <keyword>geometry</keyword>
+          <keyword>gmatrix</keyword>
+          <keyword>gmrac</keyword>
+          <keyword>gmrunits</keyword>
+          <keyword>groundcurve</keyword>
+          <keyword>grounddelayed</keyword>
+          <keyword>groundfast</keyword>
+          <keyword>groundinst</keyword>
+          <keyword>groundtrip</keyword>
+          <keyword>growth</keyword>
+
+          <keyword>h</keyword>
+          <keyword>harm</keyword>
+          <keyword>harmonic</keyword>
+          <keyword>harmonics</keyword>
+          <keyword>header</keyword>
+          <keyword>hour</keyword>
+          <keyword>how</keyword>
+          <keyword>hsrise</keyword>
+
+          <keyword>increment</keyword>
+          <keyword>interval</keyword>
+          <keyword>index</keyword>
+          <keyword>inversetime</keyword>
+          <keyword>isc1</keyword>
+          <keyword>isc3</keyword>
+
+          <keyword>k</keyword>
+          <keyword>keeplist</keyword>
+          <keyword>kron</keyword>
+          <keyword>kv</keyword>
+          <keyword>kva</keyword>
+          <keyword>kvaemerg</keyword>
+          <keyword>kvanormal</keyword>
+          <keyword>kvar</keyword>
+          <keyword>kvarlimit</keyword>
+          <keyword>kvars</keyword>
+          <keyword>kvas</keyword>
+          <keyword>kvbase</keyword>
+          <keyword>kvll</keyword>
+          <keyword>kvll1</keyword>
+          <keyword>kvll2</keyword>
+          <keyword>kvln</keyword>
+          <keyword>kvs</keyword>
+          <keyword>kw</keyword>
+          <keyword>kwactual</keyword>
+          <keyword>kwband</keyword>
+          <keyword>kwemerg</keyword>
+          <keyword>kwh</keyword>
+          <keyword>kwhactual</keyword>
+          <keyword>kwhdays</keyword>
+          <keyword>kwhrated</keyword>
+          <keyword>kwhstored</keyword>
+          <keyword>kwhtotal</keyword>
+          <keyword>kwlimit</keyword>
+          <keyword>kwneed</keyword>
+          <keyword>kwnorm</keyword>
+          <keyword>kwrated</keyword>
+          <keyword>kws</keyword>
+          <keyword>kwtarget</keyword>
+          <keyword>kwtotal</keyword>
+
+          <keyword>labels</keyword>
+          <keyword>lamp</keyword>
+          <keyword>lat1</keyword>
+          <keyword>lat2</keyword>
+          <keyword>length</keyword>
+          <keyword>ldcurve</keyword>
+          <keyword>like</keyword>
+          <keyword>linecode</keyword>
+          <keyword>linelosses</keyword>
+          <keyword>line1</keyword>
+          <keyword>line2</keyword>
+          <keyword>loadmodel</keyword>
+          <keyword>loadmult</keyword>
+          <keyword>localonly</keyword>
+          <keyword>log</keyword>
+          <keyword>lon1</keyword>
+          <keyword>lon2</keyword>
+          <keyword>losses</keyword>
+          <keyword>lossreg</keyword>
+          <keyword>lossregs</keyword>
+          <keyword>lossweight</keyword>
+
+          <keyword>m</keyword>
+          <keyword>markercode</keyword>
+          <keyword>markswitches</keyword>
+          <keyword>markcapacitors</keyword>
+          <keyword>markpvsystems</keyword>
+          <keyword>markregulators</keyword>
+          <keyword>markstorage</keyword>
+          <keyword>marktransformers</keyword>
+          <keyword>mask</keyword>
+          <keyword>max</keyword>
+          <keyword>maxangle</keyword>
+          <keyword>maxcontroliter</keyword>
+          <keyword>maxiter</keyword>
+          <keyword>maxiterations</keyword>
+          <keyword>maxkvar</keyword>
+          <keyword>maxtap</keyword>
+          <keyword>maxtapchange</keyword>
+          <keyword>mean</keyword>
+          <keyword>meut</keyword>
+          <keyword>meter</keyword>
+          <keyword>minamps</keyword>
+          <keyword>minkvar</keyword>
+          <keyword>mintap</keyword>
+          <keyword>minterval</keyword>
+          <keyword>mode</keyword>
+          <keyword>modecharge</keyword>
+          <keyword>modedischarge</keyword>
+          <keyword>model</keyword>
+          <keyword>monitoredobj</keyword>
+          <keyword>monitoredterm</keyword>
+          <keyword>mult</keyword>
+          <keyword>mva</keyword>
+          <keyword>mvasc1</keyword>
+          <keyword>mvasc3</keyword>
+          <keyword>mw</keyword>
+
+          <keyword>n</keyword>
+          <keyword>name</keyword>
+          <keyword>nconds</keyword>
+          <keyword>neglectloady</keyword>
+          <keyword>neutral</keyword>
+          <keyword>next</keyword>
+          <keyword>nodewidth</keyword>
+          <keyword>node1</keyword>
+          <keyword>node2</keyword>
+          <keyword>normamps</keyword>
+          <keyword>normhkva</keyword>
+          <keyword>normvmaxpu</keyword>
+          <keyword>normvminpu</keyword>
+          <keyword>nphases</keyword>
+          <keyword>npts</keyword>
+          <keyword>numallociterations</keyword>
+          <keyword>numcust</keyword>
+          <keyword>numfast</keyword>
+          <keyword>numharm</keyword>
+          <keyword>numsteps</keyword>
+          <keyword>numtaps</keyword>
+          <keyword>number</keyword>
+          <keyword>nwires</keyword>
+
+          <keyword>object</keyword>
+          <keyword>offsetting</keyword>
+          <keyword>onsetting</keyword>
+          <keyword>ontime</keyword>
+          <keyword>option</keyword>
+          <keyword>overloadreport</keyword>
+          <keyword>overtrip</keyword>
+          <keyword>overvoltcurve</keyword>
+
+          <keyword>parallel</keyword>
+          <keyword>pbase</keyword>
+          <keyword>pctperm</keyword>
+          <keyword>peak</keyword>
+          <keyword>peakcurrent</keyword>
+          <keyword>pf</keyword>
+          <keyword>pfband</keyword>
+          <keyword>pftarget</keyword>
+          <keyword>phasecurve</keyword>
+          <keyword>phasedelayed</keyword>
+          <keyword>phasedesignation</keyword>
+          <keyword>phasefast</keyword>
+          <keyword>phaseinst</keyword>
+          <keyword>phases</keyword>
+          <keyword>phasetrip</keyword>
+          <keyword>pmax</keyword>
+          <keyword>ppm_antifloat</keyword>
+          <keyword>ppolar</keyword>
+          <keyword>pricecurve</keyword>
+          <keyword>pricesignal</keyword>
+          <keyword>ptphase</keyword>
+          <keyword>ptratio</keyword>
+          <keyword>pu</keyword>
+          <keyword>puvoltages</keyword>
+          <keyword>pvfactor</keyword>
+          <keyword>pvmarkercode</keyword>
+          <keyword>pvmaerkersize</keyword>
+
+          <keyword>qmax</keyword>
+          <keyword>qmult</keyword>
+          <keyword>quantity</keyword>
+          <keyword>quit</keyword>
+
+          <keyword>r</keyword>
+          <keyword>rac</keyword>
+          <keyword>radius</keyword>
+          <keyword>radunits</keyword>
+          <keyword>ratedcurrent</keyword>
+          <keyword>random</keyword>
+          <keyword>rdc</keyword>
+          <keyword>recloseintervals</keyword>
+          <keyword>recorder</keyword>
+          <keyword>reduce</keyword>
+          <keyword>reduceoption</keyword>
+          <keyword>reduceoptions</keyword>
+          <keyword>register</keyword>
+          <keyword>registers</keyword>
+          <keyword>repair</keyword>
+          <keyword>residual</keyword>
+          <keyword>revband</keyword>
+          <keyword>revdelay</keyword>
+          <keyword>reversible</keyword>
+          <keyword>revneutral</keyword>
+          <keyword>revr</keyword>
+          <keyword>revthreshold</keyword>
+          <keyword>revvreg</keyword>
+          <keyword>revx</keyword>
+          <keyword>rg</keyword>
+          <keyword>rho</keyword>
+          <keyword>rmatrix</keyword>
+          <keyword>rneut</keyword>
+          <keyword>rp</keyword>
+          <keyword>runits</keyword>
+          <keyword>r0</keyword>
+          <keyword>r1</keyword>
+          <keyword>r2</keyword>
+
+          <keyword>scantype</keyword>
+          <keyword>scriptfilename</keyword>
+          <keyword>sec</keyword>
+          <keyword>seqlosses</keyword>
+          <keyword>sequence</keyword>
+          <keyword>shaftdata</keyword>
+          <keyword>shaftmodel</keyword>
+          <keyword>shots</keyword>
+          <keyword>showexport</keyword>
+          <keyword>showloops</keyword>
+          <keyword>sinterval</keyword>
+          <keyword>size</keyword>
+          <keyword>skip</keyword>
+          <keyword>sngfile</keyword>
+          <keyword>spectrum</keyword>
+          <keyword>start</keyword>
+          <keyword>startline</keyword>
+          <keyword>state</keyword>
+          <keyword>states</keyword>
+          <keyword>stepsize</keyword>
+          <keyword>stddev</keyword>
+          <keyword>stopattransformers</keyword>
+          <keyword>subname</keyword>
+          <keyword>subs</keyword>
+          <keyword>switch</keyword>
+          <keyword>switchedobj</keyword>
+          <keyword>switchedterm</keyword>
+          <keyword>switchmarkercode</keyword>
+
+          <keyword>tap</keyword>
+          <keyword>tapdelay</keyword>
+          <keyword>tapnum</keyword>
+          <keyword>taps</keyword>
+          <keyword>tapwinding</keyword>
+          <keyword>tdgrdelayed</keyword>
+          <keyword>tdgrfast</keyword>
+          <keyword>tdground</keyword>
+          <keyword>tdphase</keyword>
+          <keyword>tdphdelayed</keyword>
+          <keyword>tdphfast</keyword>
+          <keyword>temporary</keyword>
+          <keyword>term</keyword>
+          <keyword>terminal</keyword>
+          <keyword>thermal</keyword>
+          <keyword>thickness</keyword>
+          <keyword>time</keyword>
+          <keyword>timechargetrigger</keyword>
+          <keyword>timedischargetrigger</keyword>
+          <keyword>tolerance</keyword>
+          <keyword>top</keyword>
+          <keyword>tracecontrol</keyword>
+          <keyword>transformer</keyword>
+          <keyword>transmarkercode</keyword>
+          <keyword>transmarkersize</keyword>
+          <keyword>t_array</keyword>
+
+          <keyword>sngfile</keyword>
+          <keyword>spacing</keyword>
+          <keyword>spectrum</keyword>
+          <keyword>status</keyword>
+          <keyword>stepsize</keyword>
+          <keyword>storemarkercode</keyword>
+          <keyword>storemarkersize</keyword>
+          <keyword>sub</keyword>
+
+          <keyword>timechargetrig</keyword>
+          <keyword>trapezoidal</keyword>
+          <keyword>type</keyword>
+
+          <keyword>ueregs</keyword>
+          <keyword>ueweight</keyword>
+          <keyword>undertrip</keyword>
+          <keyword>undervoltcurve</keyword>
+          <keyword>units</keyword>
+          <keyword>useactual</keyword>
+          <keyword>userclasses</keyword>
+          <keyword>userdata</keyword>
+          <keyword>usermodel</keyword>
+
+          <keyword>varcurve</keyword>
+          <keyword>vbus</keyword>
+          <keyword>vbaselosses</keyword>
+          <keyword>vipolar</keyword>
+          <keyword>vlimit</keyword>
+          <keyword>vmax</keyword>
+          <keyword>vmaxpu</keyword>
+          <keyword>vmin</keyword>
+          <keyword>vminemerg</keyword>
+          <keyword>vminnorm</keyword>
+          <keyword>vminpu</keyword>
+          <keyword>voltagebases</keyword>
+          <keyword>voltages</keyword>
+          <keyword>voltexceptionreport</keyword>
+          <keyword>voltoverride</keyword>
+          <keyword>volts</keyword>
+          <keyword>vpu</keyword>
+          <keyword>vreg</keyword>
+
+          <keyword>wdg</keyword>
+          <keyword>weight</keyword>
+          <keyword>weights</keyword>
+          <keyword>what</keyword>
+          <keyword>winding</keyword>
+          <keyword>windings</keyword>
+          <keyword>wire</keyword>
+          <keyword>wires</keyword>
+
+          <keyword>x</keyword>
+          <keyword>xd</keyword>
+          <keyword>xdp</keyword>
+          <keyword>xdpp</keyword>
+          <keyword>xfkva</keyword>
+          <keyword>xfmrcode</keyword>
+          <keyword>xfmrlosses</keyword>
+          <keyword>xg</keyword>
+          <keyword>xhl</keyword>
+          <keyword>xht</keyword>
+          <keyword>xl</keyword>
+          <keyword>xlt</keyword>
+          <keyword>xmatrix</keyword>
+          <keyword>xneut</keyword>
+          <keyword>xscarray</keyword>
+          <keyword>x0</keyword>
+          <keyword>x0r0</keyword>
+          <keyword>x1</keyword>
+          <keyword>x1r1</keyword>
+
+          <keyword>year</keyword>
+          <keyword>yearly</keyword>
+
+          <keyword>z</keyword>
+          <keyword>zipv</keyword>
+          <keyword>zmag</keyword>
+          <keyword>zonelist</keyword>
+          <keyword>zonelock</keyword>
+          <keyword>z0</keyword>
+          <keyword>z1</keyword>
+          <keyword>z2</keyword>
+
+          <keyword>3phaselosses</keyword>
+          <keyword>46baseamps</keyword>
+          <keyword>46isqt</keyword>
+          <keyword>46\%pickup</keyword>
+          <keyword>47\%pickup</keyword>
+        </context>
+
+        <context id="parameters-regex" style-ref="parameter">
+          <prefix>\B</prefix>
+          <suffix>\%]</suffix>
+          <keyword>\%charge</keyword>
+          <keyword>\%discharge</keyword>
+          <keyword>\%effcharge</keyword>
+          <keyword>\%effdischarge</keyword>
+          <keyword>\%error</keyword>
+          <keyword>\%growth</keyword>
+          <keyword>\%idlingkvar</keyword>
+          <keyword>\%idlingkw</keyword>
+          <keyword>\%imag</keyword>
+          <keyword>\%kwtarget</keyword>
+          <keyword>\%loadloss</keyword>
+          <keyword>\%mag</keyword>
+          <keyword>\%mean</keyword>
+          <keyword>\%noloadloss</keyword>
+          <keyword>\%normal</keyword>
+          <keyword>\%participation</keyword>
+          <keyword>\%r</keyword>
+          <keyword>\%ratecharge</keyword>
+          <keyword>\%ratekvar</keyword>
+          <keyword>\%ratekw</keyword>
+          <keyword>\%reserve</keyword>
+          <keyword>\%rs</keyword>
+          <keyword>\%r1</keyword>
+          <keyword>\%r2</keyword>
+          <keyword>\%seriesrl</keyword>
+          <keyword>\%stored</keyword>
+          <keyword>\%stddev</keyword>
+          <keyword>\%x</keyword>
+        </context>
+
+      <!--property-->
+        <context id="properties" style-ref="property">
+          <keyword>a</keyword>
+          <keyword>admittance</keyword>
+          <keyword>all</keyword>
+          <keyword>auto</keyword>
+          <keyword>autoadd</keyword>
+          <keyword>breakloops</keyword>
+          <keyword>c</keyword>
+          <keyword>capacitor</keyword>
+          <keyword>capacity</keyword>
+          <keyword>carson</keyword>
+          <keyword>charging</keyword>
+          <keyword>circuit</keyword>
+          <keyword>clear</keyword>
+          <keyword>combined</keyword>
+          <keyword>current</keyword>
+          <keyword>daily</keyword>
+          <keyword>daisy</keyword>
+          <keyword>dblsave</keyword>
+          <keyword>default</keyword>
+          <keyword>defaultsource</keyword>
+          <keyword>delta</keyword>
+          <keyword>deri</keyword>
+          <keyword>direct</keyword>
+          <keyword>discharging</keyword>
+          <keyword>dutycycle</keyword>
+          <keyword>dynamics</keyword>
+          <keyword>e</keyword>
+          <keyword>ends</keyword>
+          <keyword>external</keyword>
+          <keyword>event</keyword>
+          <keyword>excess</keyword>
+          <keyword>f</keyword>
+          <keyword>false</keyword>
+          <keyword>faultstudy</keyword>
+          <keyword>fixed</keyword>
+          <keyword>follow</keyword>
+          <keyword>fullcarson</keyword>
+          <keyword>g</keyword>
+          <keyword>gaussian</keyword>
+          <keyword>general</keyword>
+          <keyword>generator</keyword>
+          <keyword>gsu</keyword>
+          <keyword>harmonics</keyword>
+          <keyword>idling</keyword>
+          <keyword>kvar</keyword>
+          <keyword>l</keyword>
+          <keyword>ld1</keyword>
+          <keyword>ld2</keyword>
+          <keyword>ll</keyword>
+          <keyword>llall</keyword>
+          <keyword>llprimary</keyword>
+          <keyword>ll3ph</keyword>
+          <keyword>ln</keyword>
+          <keyword>loadlevel</keyword>
+          <keyword>loadshape</keyword>
+          <keyword>lognormal</keyword>
+          <keyword>losses</keyword>
+          <keyword>m</keyword>
+          <keyword>mergeparallel</keyword>
+          <keyword>mesh</keyword>
+          <keyword>m1</keyword>
+          <keyword>m2</keyword>
+          <keyword>m3</keyword>
+          <keyword>mf</keyword>
+          <keyword>monitor</keyword>
+          <keyword>n</keyword>
+          <keyword>neg</keyword>
+          <keyword>newton</keyword>
+          <keyword>no</keyword>
+          <keyword>none</keyword>
+          <keyword>normal</keyword>
+          <keyword>normalize</keyword>
+          <keyword>null</keyword>
+          <keyword>off</keyword>
+          <keyword>option</keyword>
+          <keyword>p</keyword>
+          <keyword>peakdays</keyword>
+          <keyword>pf</keyword>
+          <keyword>power</keyword>
+          <keyword>pos</keyword>
+          <keyword>price</keyword>
+          <keyword>priceshape</keyword>
+          <keyword>primary</keyword>
+          <keyword>profile</keyword>
+          <keyword>proportional</keyword>
+          <keyword>r</keyword>
+          <keyword>radial</keyword>
+          <keyword>random</keyword>
+          <keyword>red</keyword>
+          <keyword>s</keyword>
+          <keyword>save</keyword>
+          <keyword>skip</keyword>
+          <keyword>sngsave</keyword>
+          <keyword>sourcebus</keyword>
+          <keyword>static</keyword>
+          <keyword>stubs</keyword>
+          <keyword>switches</keyword>
+          <keyword>systemmeter</keyword>
+          <keyword>t</keyword>
+          <keyword>take</keyword>
+          <keyword>tapends</keyword>
+          <keyword>time</keyword>
+          <keyword>total</keyword>
+          <keyword>totals</keyword>
+          <keyword>true</keyword>
+          <keyword>tshape</keyword>
+          <keyword>u</keyword>
+          <keyword>uniform</keyword>
+          <keyword>v</keyword>
+          <keyword>variable</keyword>
+          <keyword>voltage</keyword>
+          <keyword>wye</keyword>
+          <keyword>y</keyword>
+          <keyword>yy</keyword>
+          <keyword>yearly</keyword>
+          <keyword>yes</keyword>
+          <keyword>zero</keyword>
+          <keyword>zones</keyword>
+        </context>
+
+        <context id="properties-regex" style-ref="class">
+          <prefix>\B</prefix>
+          <suffix>\B</suffix>
+          <keyword>\%result\%</keyword>
+        </context>
+
+      <!--math-->
+        <context id="math" style-ref="math">
+          <keyword>sqr</keyword>
+          <keyword>sqrt</keyword>
+          <keyword>inv</keyword>
+          <keyword>ln</keyword>
+          <keyword>exp</keyword>
+          <keyword>log10</keyword>
+          <keyword>sin</keyword>
+          <keyword>cos</keyword>
+          <keyword>tan</keyword>
+          <keyword>asin</keyword>
+          <keyword>acos</keyword>
+          <keyword>atan</keyword>
+          <keyword>atan2</keyword>
+          <keyword>rollup</keyword>
+          <keyword>rolldn</keyword>
+          <keyword>swap</keyword>
+          <keyword>pi</keyword>
+        </context>
+
+        <context id="math-regex" style-ref="math">
+          <prefix>\B</prefix>
+          <suffix>\B</suffix>
+          <keyword>\+</keyword>
+          <keyword>\-</keyword>
+          <keyword>\*</keyword>
+          <keyword>\/</keyword>
+          <keyword>\^</keyword>
+        </context>
+
+      <!--filename-->
+        <context id="filenames" style-ref="filename">
+          <keyword>.csv</keyword>
+          <keyword>.dbl</keyword>
+          <keyword>.sng</keyword>
+          <keyword>.dss</keyword>
+        </context>
+
+      <!--value-->
+        <context id="floating-point-number" style-ref="floating-point">
+          <match extended="true">
+            (?&lt;![\w\.])
+            [+-]?
+            ((\.[0-9]+ | [0-9]+\.[0-9]*) ([ed][+-]?[0-9]*)? |
+             ([0-9]+[ed][+-]?[0-9]*))
+             ([_]([0-9]+|[a-z][\w_]*))?
+            (?![\w\.])
+          </match>
+        </context>
+
+        <context id="decimal" style-ref="decimal">
+          <match extended="true">
+            (?&lt;![\w\.])
+            [+-]? ([1-9][0-9]*|0)
+            ([_]([0-9]+|[a-z][\w_]*))?
+            (?![\w\.])
+          </match>
+        </context>
+
+      </include>
+    </context>
+  </definitions>
+</language>

@@ -1,0 +1,571 @@
+!Based on OpenDSS Manual June 2013, program revision 7.6
+
+!TODO: Include OpenDSS Object Property Descriptions (starting from page 98 of manual)
+/*  Multiline
+    comment
+*/
+
+/* Multiline
+comment */
+
+/* Single line comment */
+
+// Single line comment
+
+! Single line comment
+      !Even further in the line
+
+Command param1, parm2 parm3	parm4 !different separations (comma, space, tab)
+~ clear !Continuation of the previous line. (all variants are commands)
+M clear !This is equal
+More clear !This is equal
+
+!Name=value - Parameters may be positional or named (tagged)
+new object="line.first line" bus1=b1240 bus2=32 linecode=336acsr
+new "line.first line", b1240 32 336acsr
+!'new'is a command.
+!'line' is an object
+!'bus1' is a parameter or property
+!'.' is a delimiter for classes, objects, busses and nodes
+
+!Commands Properties=Parameters
+About
+AddBusMarker
+  addbusmarker bus=BUSNAME code=5 color=red size=3
+AlignFile
+  alignfile file=FILENAME
+AllocateLoads
+BatchEdit
+  batchedit LOAD duty=DUTYSHAPE
+BuildY
+BusCoords
+  buscoords BUSNAME X, Y
+  buscoords file=FILENAME
+CalcVoltageBases
+Capacity
+  capacity start=0.9 increment=0.005
+CD
+  cd DIRNAME
+CktLosses
+Clear
+ClearBusMarkers
+Close [Object][Term][Cond]
+CloseDI
+Comparecases
+  comparecases case1=CASENAME case2=CASENAME register=REGISTERNUMBER meter=totals
+  comparecases case1=CASENAME case2=CASENAME register=REGISTERNUMBER meter=systemmeter
+  comparecases case1=CASENAME case2=CASENAME register=REGISTERNUMBER meter=METERNAME
+Compile [fileName]
+Currents
+DI_plot
+  di_plot case=CASENAME year=YEAR registers=(REG1, REG2) peak=yes meter=METERNAME !or other booleans
+Disable [Object]
+Distribute kw=NN how={proportional | uniform | random | skip} skip=NN pf=NN file=FILENAME mw=NN
+DOScmd /c ... command string ...
+Dump <Circuit Element> [Debug]
+  dump Transformer.* debug
+Edit [Object] [Edit String]
+Enable [Object]
+Estimate
+Export <Quantity> [Filename or switch]
+  export voltages
+  export seqvoltages
+  export currents
+  export overloads
+  export seqcurrents
+  export powers
+  export faultstudy
+  export loads
+  export monitors
+  export meters
+  export generators
+  export yprims
+  export y
+  export seqz
+Fileedit [filename]
+Formedit [Class.Object]
+Get[Opt1][opt2]
+Guids
+Help
+Init
+Interpolate
+LatLongCoord
+Losses
+MakeBusList
+MakePosSeq
+More | M | ~ | [Edit string]
+M !abbrevion of More
+New [Object] [Edit string]
+[Object Property name] = value !generic
+NodeDiff
+  nodediff node1=MYBUS.1 node2=MYOTHERBUS.2
+Obfuscate
+  Save Circuit Dir=MyDirName.
+Open [Object][Term][Cond]
+  open object=line.linxx term=1
+PhaseLosses
+Plot (options)
+  plot type={Circuit | Monitor | Daisy | Zones | AutoAdd | General (bus data) | Loadshape | Tshape | Priceshape |Profile}
+  plot Quantity = {Voltage | Current | Power | Losses | Capacity | INDEX }
+  plot max = {0 | VALUE}
+  plot dots = {Y | N}
+  plot labels = {Y | N}
+  plot object = [METERNAME | MONITORNAME | FILENAME | LOADSHAPENAME]
+  plot showloops {Y | N}
+  plot r3 = VAL
+  plot r2 = VAL
+  plot c1 = RGB
+  plot c2 = RGB
+  plot c3 = RGB
+  plot channels = ARRAY
+  plot bases = ARRAY
+  plot subs = [Y|N]
+  plot thickness=7
+  plot buslist
+  plot phases={default* | ALL | PRIMARY | LL3ph | LLALL | LLPRIMARY | (phase number)}
+Powers
+Pstcalc
+  PstCalc npts=nnn Voltages=ARRAY dt=VAL freq=nn lamp=120
+Reconductor line1=NAME line2=NAME linecode=LINECODE geometry=GEOMETRY
+Redirect [fileName]
+Reduce {All|MeterName}
+Rephase
+  rephase startline=
+  rephase phasedesignation=
+  rephase editstring=
+  rephase scriptfilename=
+  rephase stopattransformers
+  Rephase StartLine=Line.L100 PhaseDesignation=".2" EditString="phases=1" ScriptFile=Myphasechangefile.DSS Stop=No
+ReprocessBuses
+Reset {Meter | Monitors}
+Rotate angle=DEGREES
+Sample
+Save
+  save class=meters class=circuit class=voltages class=CLASSNAME file=FILENAME dir=DIRECTORY
+Select
+  select element=ELEMENTNAME terminal=TERMINALNUMBER
+SeqCurrents
+SeqPowers
+SeqVoltages
+Set [option1=value1] [option2=value2]
+  !Via Options Reference, page 84 of manual
+  set %growth=2.5
+  set %mean=65
+  set %normal=80
+  set %stddev=9
+  set addtype=generator
+    set addtype=capacitor
+  set algorithm=normal
+    set algorithm=newton
+  set allocationfactors=FACTOR
+  set allowduplicates=yes !other booleans listed below
+    set allowduplicates=true
+    set allowduplicates=no
+    set allowduplicates=false
+    set allowduplicates=y
+    set allowduplicates=t
+    set allowduplicates=n
+    set allowduplicates=f
+  set autobuslist=(BUS1, BUS2, BUS2)
+  set autobuslist=(file=FILENAME)
+  set basefrequency=50
+  set bus=BUS
+  set capkvar=600.0
+  set casename=CIRCUITNAME
+  set capmarkercode=37
+  set capmarkersize=3
+  set cfactors=4
+  set circuit=NAME
+  set cktmodel=multiphase
+    set cktmodel=positive
+  set class=OBJECT
+  set controlmode=off
+    set controlmode=static
+    set controlmode=event
+    set controlmode=time
+  set datapath=null
+  set datapath=PATH
+  set defaultbasefrequency=50
+  set defaultdaily=default
+    set defaultdaily=DAILYSHAPE
+  set defaultyearly=default
+    set defaultyearly=YEARLYSHAPE
+  set demandinterval=yes !or other booleans
+  set diverbose=yes !or other booleans
+  set earthmodel=carson
+    set earthmodel=fullcarson
+    set earthmodel=deri
+  set editor=EDITOR
+  set element=ELEMENTNAME
+  set emergvmaxpu=1.08
+  set emergvminpu=0.90
+  set frequency=50
+  set genkw=1000.0
+  set genmult=1.0
+  set genpf=1.0
+  set h=STEPSIZE
+  set harmonics=all
+    set harmonics=LIST_OF_HARMONICS
+  set hour=HOUR
+  set keeplist(BUS1, BUS2, BUS3)
+    set keeplist(file=BUSLISTFILE)
+  set ldcurve=LOADSHAPE
+  set loadmodel=powerflow
+    set loadmodel=p
+    set loadmodel=admittance
+    set loadmodel=a
+  set loadmult=1.0
+  set log=yes !or other booleans
+  set lossreg=13
+  set lossweight=1.0
+  set markercode=0
+  set markswitches=yes !or other booleans
+  set markcapacitors=yes !or other booleans
+  set markpvsystems=yes !or other booleans
+  set markregulators=yes !or other booleans
+  set markstorage=yes !or other booleans
+  set marktransformers=yes !or other booleans
+  set maxcontroliter=10
+  set maxiter=15
+  set mode=snap
+    set mode=daily
+    set mode=direct
+    set mode=dutycycle
+    set mode=dynamics
+    set mode-faultstudy
+    set mode=harmonics
+    set mode=yearly
+    set mode=ld1
+    set mode=ld2
+    set mode=m1
+    set mode=m2
+    set mode=m3
+    set mode=mf
+    set mode=peakdays
+  set nodewidth=1
+  set normvmaxpu=1.05
+  set normvminpu=0.95
+  set numallociterations=2
+  set number=2
+  set object=CLASSNAME
+  set overloadreport=yes !or other booleans
+  set neglectloady=yes !or other booleans
+  set pricecurve=LOADSHAPE
+  set pricesignal=25
+  set pvmarkercode=15
+  set pvmarkersize=1
+  set random=uniform
+    set random=gaussian
+    set random=lognormal  
+    set random=none
+    set random=g
+    set random=l
+    set random=u
+  set recorder=yes !or other booleans
+  set reduceoption=default
+    set reduceoption=null
+    set reduceoption=stubs zmag=0.02
+    set reduceoption=mergeparallel
+    set reduceoption=breakloops
+    set reduceoption=tapends maxangle=15
+    set reduceoption=ends
+    set reduceoption=switches
+  set regmarkercode=47
+  set regmarkersize=1
+  set sec=1
+  set showexport=yes !or other booleans
+  set stepsize=STEPSIZE
+  set switchmarkercode=4
+  set terminal=TERMINAL
+  set time=(23, 370)
+  set tolerance=0.0001
+  set tracecontrol=yes !or other booleans
+  set transmarkercode=35
+  set transmarkersize=1
+  set storemarkercode=9
+  set storemarkersize=1
+  set trapezoidal=yes
+  set type=CLASSTYPE
+  set ueregs=11
+  set ueweight=1.0
+  set voltagebases=[.208, .480, 12.47, 24.9, 34.5, 115.0, 230.0]
+  set voltexceptionreport=yes !or other booleans
+  set year=0
+  set zonelock=yes !or other booleans
+SetkVBase [bus=...] [kvll=...]
+  setkvbase bus=BUSNAME kvll=100 kvln=100
+show <quantity>
+  show currents
+  show monitor MONITORNAME
+  show faults
+  show elements
+  show buses
+  show panel
+  show meter
+  show generators
+  show losses
+  show powers
+    show powers mva seq
+    show powers kva elements
+  show zone
+  show autoadded
+  show taps
+  show overloads
+  show unserved
+  show eventlog
+  show variables
+  show isolated
+  show ratings
+  show loops
+  show yprim
+  show y
+  show busflow
+    show busflow mva seq
+    show busflow kva elements
+  show lineconstants
+    show lineconstants frequency=0.1 none
+    show lineconstants frequency=0.1 mi
+    show lineconstants frequency=0.1 km
+    show lineconstants frequency=0.1 kft
+    show lineconstants frequency=0.1 m
+    show lineconstants frequency=0.1 ft
+    show lineconstants frequency=0.1 in
+    show lineconstants frequency=0.1 cm
+Solve [see set command options...]
+  solve mode=daily stepsize=15m number=96
+Summary
+Totals
+UpdateStorage
+Variable
+  variable name=VARIABLENAME index=INDEXOFVARIABLE
+Varnames
+VarValues
+Vdiff
+Visualize
+  visualize what=currents element=FULL_ELEMENT_NAME
+  visualize what=voltages element=FULL_ELEMENT_NAME
+  visualize what=powers element=FULL_ELEMENT_NAME
+Voltages
+YearlyCurves
+  YearlyCurves cases=(CASE1, CASE2) registers=(REG1, REG2) meter=totals
+  YearlyCurves cases=(CASE1, CASE2) registers=(REG1, REG2) meter=systemmeter
+  YearlyCurves cases=(CASE1, CASE2) registers=(REG1, REG2) meter=METERNAME
+Ysc
+Zsc
+Zsc10
+ZscRefresh
+
+!Customizing solution process
+_DoControlActions
+_InitSnap
+_SampleControls
+_ShowControlQueue
+_SolveDirect
+_SolveNoControl
+_SolvePFlow
+
+!Classes
+new linecode nphases r1 x1 r0 x0 c1 c0 units rmatrix xmatrix cmatrix basefreq normamps emergamps faultrate pctperm kron rg xg rho like
+new linegeometry nconds nphases cond wire x h units normamps emergamps reduce like
+new loadshape npts interval minterval sinterval mult hour qmult mean stddev csvfile sngfile dblfile action {normalize | dblsave | sngsave} useactual pmax qmax pbase like
+new growthshape npts year mult csvfile sngfile dblfile like
+new tcc_curve npts c_array t_array like
+new wiredata rdc rac gmrac gmrunits radius radunits normamps emergamps diam like
+new vsource bus1 bus2 basekv pu angle frequency phases mvasc3 mvasc1 x1r1 x0r0 isc3 isc1 r1 x1 r0 x0 scantype = {pos | zero | none} sequence = {pos | zero | none} spectrum z1 z2 z0 basefreq like
+new isource phases bus1 amps angle frequency scantype sequence spectrum basefreq enabled like
+new fault phases bus1 bus2 r gmatrix minamps ontime pctperm temporary %stddev normamps emergamps basefreq faultrate repair enabled
+new capacitor bus1 bus2 phases kvar kv conn = {delta | ll | wye | ln } cmatrix cuf r xl harm numsteps states normamps emergamps faultrate pctperm basefreq like
+new line bus1 bus2 linecode length phases r1 x1 r0 x0 c1 c0 b1 b0 normamps emergamps faultrate pctperm repair basefreq rmatrix xmatrix cmatrix switch rg xg rho geometry earthmodel {carson | fullcarson | deri} units like
+new reactor phases bus1 bus2 kv kvar conn parallel r rmatrix rp x xmatrix z z1 z2 z0 normamps emergamps repair faultrate pctperm basefreq enabled like
+new transformer phases windings wdg bus conn kv kva tap %r meut buses conns kvs kvas taps %rs xhl xlt xht xscarray thermal n m flrise hsrise %loadloss %noloadloss ppm_antifloat normhkva emerghkva faultrate basefreq like sub
+new gictransformer basefreq bush busnh busnx busx emergamps enabled phases r1 r2 type = {gsu | auto | yy} mva kvll1 kvll2 %r1 %r2 k varcurve like normamps emergamps pctperm repair
+new gicline angle bus1 bus2 c ee en frequency lat1 lat2 lon1 lon2 phases r volts x like basefreq enabled spectrum
+new load bus1 phases kv kw pf model yearly daily duty growth conn kvar rneut xneut status = {fixed | variable} class vminpu vmaxpu vminnorm vminemerg xfkva allocationfactor kva %mean %stddev cvrwatts cvrvars kwh kwhdays cfactor cvrcurve numcust spectrum zipv %seriesrl basefreq like
+new generator bus1 phases kv kw pf model yearly daily duty dispvalue conn kvar rneut xneut status class maxkvar minkvar pvfactor debugtrace vminpu vmaxpu forceon kva mva xd xdp xdpp h d usermodel userdata shaftmodel shaftdata spectrum basefreq like
+new storage %charge %discharge %effcharge %effdischarge %idlingkvar %idlingkw %r %reserve %stored %x basefreq bus1 chargetrigger class conn daily debugtrace dischargetrigger dispmode = {default | follow | external | loadlevel | price} duty dynadata dynadll enabled kv kva kvar kw kwhrated kwhstored kwrated like model pf phases spectrum state = {idling | charging | discharging} timechargetrig userdata usermodel vmaxpu vminpu yearly
+new capcontrol element capacitor type = {current | voltage | kvar | pf | time} ctphase ctratio deadtime delay delayoff eventlog offsetting onsetting ptphase ptratio terminal vbus vmax vmin voltoverride
+new regcontrol transformer winding vreg band delay ptratio ctprim r x ptphase tapwinding bus debugtrace eventlog inversetime maxtapchange revband revdelay reversible revneutral revr revthreshold revvreg revx tapdelay tapnum vlimit
+new energymeter element terminal action clear save take option e excess t total r radial m mesh c combined v voltage kwnorm kwemerg peakcurrent zonelist localonly mask losses linelosses xfmrlosses seqlosses 3phaselosses vbaselosses basefreq enabled like
+new monitor element terminal mode action ={clear | c | save | s}
+!Parameters
+pf
+kvar
+kva mva
+case1
+case2
+register
+meter
+year
+peak
+registers
+start
+increment
+file
+bus
+code
+color
+size
+ppolar
+vipolar
+mod
+kw
+how
+skip
+mw
+  !in New
+Object
+Like !inheritance
+  !in Line
+Length
+R1
+X1
+R0
+X0
+  !in NodeDiff
+Node1
+Node2
+  !in Save
+Dir
+  !in Plot
+Type
+Quantity
+Max
+Dots
+Labels
+Object
+ShowLoops
+R3
+R2
+C1
+C2
+C3
+Bases
+Subs
+Thickness
+Buslist
+Phases
+Npts
+Voltages
+dt
+freq
+lamp
+column
+v
+Line1
+Line2
+Linecode
+Geometry
+  !in Rephase
+StartLine
+PhaseDesignation
+EditString
+ScriptFileName
+StopAtTransformers
+Stop
+  !in Rotage
+angle
+
+!Properties (as defined in parameters)
+  !in Distribute
+Proportional
+Uniform
+Random
+Skip
+  !in Dump
+Debug
+  !in export
+Voltages
+SeqVoltages
+Currents
+Overloads
+SeqCurrents
+Powers [mva]
+Faultstudy
+Load
+Monitors
+Meters
+Generators
+Yprims
+Y
+SeqZ
+  !in Plot
+Circuit
+Monitor
+Daisy
+Zones
+AutoAdd
+General
+Loadshape
+Tshape
+Priceshape
+Profile
+Voltage
+Current
+Power
+Losses
+Capacity
+Y
+N
+!Color number (page 73 of manual)
+All
+Primary
+Ll3ph
+Llall
+Llprimary
+!Phase number
+  !in Reduce
+All
+  !in Rephase
+Y
+N
+T
+F
+
+
+!Array or string delimiter pairs
+[test]
+{test}
+(test)
+"test"
+'test'
+kvs = [115, 6.6, 22]
+kvas=[2000 16000 16000]
+mult=[1, 2, 3, 4]
+mult=[file=mytextdatafile.csv]
+mult=[db1file=myfileofdoubles.db1] !binary file of doubles
+mult=[sngfile=myfileofdoubles.sng] !binary file of singles
+mult=[file=mymulticolumnfile.csv, column=n, header=yes] !enhanced syntax
+!RPN expressions (math) inside the quoted formats will be evaluated automatically
+
+!Matrix row delimiters '|'
+rmatrix=(0.0868455 |  0.0298305 0.0887966 | 0.0288883 0.0298305  0.0868455)
+xmatrix=[1.2 .3 .3 | .3 1.2 3 | .3 .3 1.2] !(3x3 matrix)
+xmatrix=[1.2 | .3 1.2 | .3 .3 1.2] !(3x3 matrix lower triangle)
+
+!Query a property
+? monitor.mon1.mode
+
+!Special reserved file name %result%
+mult=[file=%result%, column=5, header=yes]
+
+!RPN expressions
+(1 + 2)
+{1 - 2}
+(1 * 2)
+"1 / 2"
+'1 ^ 2'
+(sqr sqrt inv ln exp log10 sin cos tan asin acos atan atan2) !unitary functions
+(rollup rolldn swap) !manipulate stack of registers
+(pi) !constant
+line.l1.x2 = (2 pi * 60 * .001 *)
+capacitor.c1.kvar = [(14.4 13.8 / sqrt 300 *), (14.4 13.8 / sqrt 300 *)]
+capacitor.c1.kvar = [ 326.65, 326.65]
+new transformer.t kvs=("24.9 3 sqrt /" "10 2 *")
+
+
+
+
+
+
+/*Valid 
+multi-line comment terminating at the end of the file
