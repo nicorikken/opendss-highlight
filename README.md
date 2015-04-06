@@ -8,14 +8,14 @@ This language specification is currently licensed under the LGPL v2.1 to both be
 
 ## How to install
 GtkSourceView version 3
-    mkdir -p ~/.local/share/gtksourceview-3.0/language-specs/
-    cd ~/.local/share/gtksourceview-3.0/language-specs/
-    wget https://raw.githubusercontent.com/nicorikken/opendss-highlight/master/opendss.lang
+<pre><code>mkdir -p ~/.local/share/gtksourceview-3.0/language-specs/
+cd ~/.local/share/gtksourceview-3.0/language-specs/
+wget https://raw.githubusercontent.com/nicorikken/opendss-highlight/master/opendss.lang</pre></code>
 
 GtkSourceView version 2
-    mkdir -p ~/.local/share/gtksourceview-2.0/language-specs/
-    cd ~/.local/share/gtksourceview-2.0/language-specs/
-    wget https://raw.githubusercontent.com/nicorikken/opendss-highlight/master/opendss.lang
+<pre><code>mkdir -p ~/.local/share/gtksourceview-2.0/language-specs/
+cd ~/.local/share/gtksourceview-2.0/language-specs/
+wget https://raw.githubusercontent.com/nicorikken/opendss-highlight/master/opendss.lang</pre></code>
 
 ## Known issues
 * No spell-check exceptions have been defined.
