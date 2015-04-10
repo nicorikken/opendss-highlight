@@ -787,6 +787,8 @@
           <keyword>\%stored</keyword>
           <keyword>\%stddev</keyword>
           <keyword>\%x</keyword>
+          <keyword>/m</keyword>
+          <keyword>/multiple</keyword>
         </context>
 
       <!--property-->
