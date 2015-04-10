@@ -101,6 +101,7 @@
           <keyword>buildy</keyword>
           <keyword>buscoords</keyword>
           <keyword>calcvoltagebases</keyword>
+          <keyword>calcv</keyword>
           <keyword>capacity</keyword>
           <keyword>cd</keyword>
           <keyword>cktlosses</keyword>
@@ -517,6 +518,7 @@
           <keyword>nodewidth</keyword>
           <keyword>node1</keyword>
           <keyword>node2</keyword>
+          <keyword>nodes</keyword>
           <keyword>normamps</keyword>
           <keyword>normhkva</keyword>
           <keyword>normvmaxpu</keyword>
